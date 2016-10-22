@@ -40,10 +40,10 @@ func (this *service) processor() {
 		this.wgStopped.Done()
 		this.stop()
 
-		//glog.Debugf("(%s) Stopping processor", this.cid())
+		//glog.Infof("(%s) Stopping processor", this.cid())
 	}()
 
-	glog.Debugf("(%s) Starting processor", this.cid())
+	glog.Infof("(%s) Starting processor", this.cid())
 
 	this.wgStarted.Done()
 
@@ -65,7 +65,7 @@ func (this *service) processor() {
 			return
 		}
 
-		//glog.Debugf("(%s) Received: %s", this.cid(), msg)
+		//glog.Infof("(%s) Received: %s", this.cid(), msg)
 
 		this.inStat.increment(int64(n))
 
@@ -94,7 +94,7 @@ func (this *service) processor() {
 		}
 
 		//if this.inStat.msgs%1000 == 0 {
-		//	glog.Debugf("(%s) Going to process message %d", this.cid(), this.inStat.msgs)
+		//	glog.Infof("(%s) Going to process message %d", this.cid(), this.inStat.msgs)
 		//}
 	}
 }
@@ -182,7 +182,7 @@ func (this *service) processIncoming(msg message.Message) error {
 	}
 
 	if err != nil {
-		glog.Debugf("(%s) Error processing acked message: %v", this.cid(), err)
+		glog.Infof("(%s) Error processing acked message: %v", this.cid(), err)
 	}
 
 	return err
@@ -213,7 +213,7 @@ func (this *service) processAcked(ackq *sessions.Ackqueue) {
 			continue
 		}
 
-		//glog.Debugf("(%s) Processing acked message: %v", this.cid(), ack)
+		//glog.Infof("(%s) Processing acked message: %v", this.cid(), ack)
 
 		// - PUBACK if it's QoS 1 message. This is on the client side.
 		// - PUBREL if it's QoS 2 message. This is on the server side.
@@ -229,7 +229,7 @@ func (this *service) processAcked(ackq *sessions.Ackqueue) {
 			}
 
 		case message.PUBACK, message.PUBCOMP, message.SUBACK, message.UNSUBACK, message.PINGRESP:
-			glog.Debugf("process/processAcked: %s", ack)
+			glog.Infof("process/processAcked: %s", ack)
 			// If ack is PUBACK, that means the QoS 1 message sent by this service got
 			// ack'ed. There's nothing to do other than calling onComplete() below.
 
@@ -323,7 +323,7 @@ func (this *service) processSubscribe(msg *message.SubscribeMessage) error {
 		// yeah I am not checking errors here. If there's an error we don't want the
 		// subscription to stop, just let it go.
 		this.topicsMgr.Retained(t, &this.rmsgs)
-		glog.Debugf("(%s) topic = %s, retained count = %d", this.cid(), string(t), len(this.rmsgs))
+		glog.Infof("(%s) topic = %s, retained count = %d", this.cid(), string(t), len(this.rmsgs))
 	}
 
 	if err := resp.AddReturnCodes(retcodes); err != nil {
@@ -378,7 +378,7 @@ func (this *service) onPublish(msg *message.PublishMessage) error {
 
 	msg.SetRetain(false)
 
-	//glog.Debugf("(%s) Publishing to topic %q and %d subscribers", this.cid(), string(msg.Topic()), len(this.subs))
+	//glog.Infof("(%s) Publishing to topic %q and %d subscribers", this.cid(), string(msg.Topic()), len(this.subs))
 	for _, s := range this.subs {
 		if s != nil {
 			fn, ok := s.(*OnPublishFunc)

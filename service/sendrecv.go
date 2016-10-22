@@ -52,16 +52,16 @@ func (this *service) receiver() {
 
 		this.wgStopped.Done()
 
-		glog.Debugf("(%s) Stopping receiver", this.cid())
+		glog.Infof("(%s) Stopping receiver", this.cid())
 	}()
 
-	glog.Debugf("(%s) Starting receiver", this.cid())
+	glog.Infof("(%s) Starting receiver", this.cid())
 
 	this.wgStarted.Done()
 
 	switch conn := this.conn.(type) {
 	case net.Conn:
-		//glog.Debugf("server/handleConnection: Setting read deadline to %d", time.Second*time.Duration(this.keepAlive))
+		//glog.Infof("server/handleConnection: Setting read deadline to %d", time.Second*time.Duration(this.keepAlive))
 		keepAlive := time.Second * time.Duration(this.keepAlive)
 		r := timeoutReader{
 			d:    keepAlive + (keepAlive / 2),
@@ -97,10 +97,10 @@ func (this *service) sender() {
 
 		this.wgStopped.Done()
 
-		glog.Debugf("(%s) Stopping sender", this.cid())
+		glog.Infof("(%s) Stopping sender", this.cid())
 	}()
 
-	glog.Debugf("(%s) Starting sender", this.cid())
+	glog.Infof("(%s) Starting sender", this.cid())
 
 	this.wgStarted.Done()
 
@@ -238,7 +238,7 @@ func (this *service) readMessage(mtype message.MessageType, total int) (message.
 	for l < total {
 		n, err = this.in.Read(this.intmp[l:])
 		l += n
-		glog.Debugf("read %d bytes, total %d", n, l)
+		glog.Infof("read %d bytes, total %d", n, l)
 		if err != nil {
 			return nil, 0, err
 		}

@@ -85,7 +85,7 @@ func startFanSubscribers(t testing.TB, cid int, wg *sync.WaitGroup) {
 				}
 
 				received++
-				//glog.Debugf("(surgemq%d) messages received=%d", cid, received)
+				//glog.Infof("(surgemq%d) messages received=%d", cid, received)
 				since = time.Since(now).Nanoseconds()
 
 				if received == cnt {
@@ -119,7 +119,7 @@ func startFanSubscribers(t testing.TB, cid int, wg *sync.WaitGroup) {
 		}
 		statMu.Unlock()
 
-		glog.Debugf("(surgemq%d) Received %d messages in %d ns, %d ns/msg, %d msgs/sec", cid, received, since, int(float64(since)/float64(cnt)), int(float64(received)/(float64(since)/float64(time.Second))))
+		glog.Infof("(surgemq%d) Received %d messages in %d ns, %d ns/msg, %d msgs/sec", cid, received, since, int(float64(since)/float64(cnt)), int(float64(received)/(float64(since)/float64(time.Second))))
 	})
 }
 
@@ -163,7 +163,7 @@ func startFanPublisher(t testing.TB, cid int, wg *sync.WaitGroup) {
 		}
 		statMu.Unlock()
 
-		glog.Debugf("(surgemq%d) Sent %d messages in %d ns, %d ns/msg, %d msgs/sec", cid, sent, since, int(float64(since)/float64(cnt)), int(float64(sent)/(float64(since)/float64(time.Second))))
+		glog.Infof("(surgemq%d) Sent %d messages in %d ns, %d ns/msg, %d msgs/sec", cid, sent, since, int(float64(since)/float64(cnt)), int(float64(sent)/(float64(since)/float64(time.Second))))
 
 		select {
 		case <-done2:

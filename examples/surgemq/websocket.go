@@ -17,7 +17,7 @@ func DefaultListenAndServeWebsocket() error {
 }
 
 func AddWebsocketHandler(urlPattern string, uri string) error {
-	glog.Debugf("AddWebsocketHandler urlPattern=%s, uri=%s", urlPattern, uri)
+	glog.Infof("AddWebsocketHandler urlPattern=%s, uri=%s", urlPattern, uri)
 	u, err := url.Parse(uri)
 	if err != nil {
 		glog.Errorf("surgemq/main: %v", err)
