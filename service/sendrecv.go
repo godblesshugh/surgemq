@@ -21,8 +21,8 @@ import (
 	"net"
 	"time"
 
-	"github.com/surge/glog"
-	"github.com/surgemq/message"
+	"github.com/godblesshugh/glog"
+	"github.com/godblesshugh/message"
 )
 
 type netReader interface {

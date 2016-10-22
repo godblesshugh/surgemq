@@ -17,8 +17,8 @@ package sessions
 import (
 	"testing"
 
+	"github.com/godblesshugh/message"
 	"github.com/stretchr/testify/require"
-	"github.com/surgemq/message"
 )
 
 func TestSessionInit(t *testing.T) {

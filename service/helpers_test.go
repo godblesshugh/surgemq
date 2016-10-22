@@ -24,11 +24,11 @@ import (
 	"sync/atomic"
 	"testing"
 
+	"github.com/godblesshugh/glog"
+	"github.com/godblesshugh/message"
+	"github.com/godblesshugh/surgemq/sessions"
+	"github.com/godblesshugh/surgemq/topics"
 	"github.com/stretchr/testify/require"
-	"github.com/surge/glog"
-	"github.com/surgemq/message"
-	"github.com/surgemq/surgemq/sessions"
-	"github.com/surgemq/surgemq/topics"
 )
 
 var (
