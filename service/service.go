@@ -20,7 +20,7 @@ import (
 	"sync"
 	"sync/atomic"
 
-	"github.com/godblesshugh/glog"
+	"github.com/surgebase/glog"
 	"github.com/godblesshugh/message"
 	"github.com/godblesshugh/surgemq/sessions"
 	"github.com/godblesshugh/surgemq/topics"

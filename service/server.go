@@ -24,7 +24,7 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/godblesshugh/glog"
+	"github.com/surgebase/glog"
 	"github.com/godblesshugh/message"
 	"github.com/godblesshugh/surgemq/auth"
 	"github.com/godblesshugh/surgemq/sessions"

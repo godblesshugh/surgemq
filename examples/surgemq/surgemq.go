@@ -21,7 +21,7 @@ import (
 	"os/signal"
 	"runtime/pprof"
 
-	"github.com/godblesshugh/glog"
+	"github.com/surgebase/glog"
 	"github.com/godblesshugh/surgemq/service"
 )
 

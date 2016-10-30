@@ -21,7 +21,7 @@ import (
 	"net"
 	"time"
 
-	"github.com/godblesshugh/glog"
+	"github.com/surgebase/glog"
 	"github.com/godblesshugh/message"
 )
 
