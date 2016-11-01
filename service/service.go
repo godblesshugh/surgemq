@@ -264,7 +264,7 @@ func (this *service) publish(msg *message.PublishMessage, onComplete OnCompleteF
 
 	glog.Info("Receive a message")
 
-	glog.Infof("(server) receive a message through Publish, with content: %q", msg.String())
+	glog.Infof("(service) receive a message through Publish, with content: %q", msg.String())
 	
 	switch msg.QoS() {
 	case message.QosAtMostOnce:

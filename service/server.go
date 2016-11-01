@@ -184,6 +184,9 @@ func (this *Server) Publish(msg *message.PublishMessage, onComplete OnCompleteFu
 	if err := this.checkConfiguration(); err != nil {
 		return err
 	}
+	glog.Info("Receive a message")
+
+	glog.Infof("(server) receive a message through Publish, with content: %q", msg.String())
 
 	if msg.Retain() {
 		if err := this.topicsMgr.Retain(msg); err != nil {
