@@ -184,6 +184,8 @@ func (this *Server) Publish(msg *message.PublishMessage, onComplete OnCompleteFu
 	if err := this.checkConfiguration(); err != nil {
 		return err
 	}
+	
+	glog.Infof("(server) receive a message through Publish, with content: %q", msg.String())
 
 	if msg.Retain() {
 		if err := this.topicsMgr.Retain(msg); err != nil {
@@ -197,7 +199,8 @@ func (this *Server) Publish(msg *message.PublishMessage, onComplete OnCompleteFu
 
 	msg.SetRetain(false)
 
-	//glog.Infof("(server) Publishing to topic %q and %d subscribers", string(msg.Topic()), len(this.subs))
+
+	glog.Infof("(server) Publishing to topic %q and %d subscribers", string(msg.Topic()), len(this.subs))
 	for _, s := range this.subs {
 		if s != nil {
 			fn, ok := s.(*OnPublishFunc)
