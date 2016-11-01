@@ -262,6 +262,10 @@ func (this *service) publish(msg *message.PublishMessage, onComplete OnCompleteF
 		return fmt.Errorf("(%s) Error sending %s message: %v", this.cid(), msg.Name(), err)
 	}
 
+	glog.Info("Receive a message")
+
+	glog.Infof("(server) receive a message through Publish, with content: %q", msg.String())
+	
 	switch msg.QoS() {
 	case message.QosAtMostOnce:
 		if onComplete != nil {
