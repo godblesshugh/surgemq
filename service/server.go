@@ -24,11 +24,11 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/surgebase/glog"
 	"github.com/godblesshugh/message"
 	"github.com/godblesshugh/surgemq/auth"
 	"github.com/godblesshugh/surgemq/sessions"
 	"github.com/godblesshugh/surgemq/topics"
+	"github.com/surgebase/glog"
 )
 
 var (

@@ -21,8 +21,8 @@ import (
 	"net"
 	"time"
 
-	"github.com/surgebase/glog"
 	"github.com/godblesshugh/message"
+	"github.com/surgebase/glog"
 )
 
 type netReader interface {
