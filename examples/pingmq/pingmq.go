@@ -70,8 +70,8 @@ import (
 
 	"github.com/godblesshugh/message"
 	"github.com/godblesshugh/netx"
-	"github.com/godblesshugh/surgemq/service"
 	"github.com/spf13/cobra"
+	"surgemq/service"
 )
 
 type strlist []string

@@ -22,8 +22,8 @@ import (
 	"time"
 
 	"github.com/godblesshugh/message"
-	"github.com/godblesshugh/surgemq/sessions"
-	"github.com/godblesshugh/surgemq/topics"
+	"surgemq/sessions"
+	"surgemq/topics"
 )
 
 const (

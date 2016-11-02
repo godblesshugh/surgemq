@@ -16,13 +16,12 @@ package main
 
 import (
 	"flag"
+	"github.com/surgebase/glog"
 	"log"
 	"os"
 	"os/signal"
 	"runtime/pprof"
-
-	"github.com/godblesshugh/surgemq/service"
-	"github.com/surgebase/glog"
+	"surgemq/service"
 )
 
 var (

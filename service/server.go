@@ -25,10 +25,10 @@ import (
 	"time"
 
 	"github.com/godblesshugh/message"
-	"github.com/godblesshugh/surgemq/auth"
-	"github.com/godblesshugh/surgemq/sessions"
-	"github.com/godblesshugh/surgemq/topics"
 	"github.com/surgebase/glog"
+	"surgemq/auth"
+	"surgemq/sessions"
+	"surgemq/topics"
 )
 
 var (
@@ -199,7 +199,6 @@ func (this *Server) Publish(msg *message.PublishMessage, onComplete OnCompleteFu
 	}
 
 	msg.SetRetain(false)
-
 
 	glog.Infof("(server) Publishing to topic %q and %d subscribers", string(msg.Topic()), len(this.subs))
 	for _, s := range this.subs {

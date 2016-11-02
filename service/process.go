@@ -21,8 +21,8 @@ import (
 	"reflect"
 
 	"github.com/godblesshugh/message"
-	"github.com/godblesshugh/surgemq/sessions"
 	"github.com/surgebase/glog"
+	"surgemq/sessions"
 )
 
 var (

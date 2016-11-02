@@ -21,9 +21,9 @@ import (
 	"sync/atomic"
 
 	"github.com/godblesshugh/message"
-	"github.com/godblesshugh/surgemq/sessions"
-	"github.com/godblesshugh/surgemq/topics"
 	"github.com/surgebase/glog"
+	"surgemq/sessions"
+	"surgemq/topics"
 )
 
 type (
