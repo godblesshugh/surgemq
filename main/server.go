@@ -16,7 +16,6 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"log"
 	"os"
 	"os/signal"
@@ -24,21 +23,20 @@ import (
 	"surgemq/service"
 
 	"github.com/surge/glog"
+	"fmt"
+	"runtime"
 )
 
 var (
-	keepAlive int
-	connectTimeout int
-	ackTimeout int
-	timeoutRetries int
-	authenticator string
-	sessionsProvider string
-	topicsProvider string
+	keepAlive int = 300
+	connectTimeout int = 2
+	ackTimeout int = 20
+	timeoutRetries int = 3
+	gomaxproces int = 2
+	authenticator string = "mockSuccess"
+	sessionsProvider string = "mem"
+	topicsProvider string = "mem"
 	cpuprofile string
-	wsAddr string // HTTPS websocket address eg. :8080
-	wssAddr string // HTTPS websocket address, eg. :8081
-	wssCertPath string // path to HTTPS public key
-	wssKeyPath string // path to HTTPS private key
 )
 
 func init() {
@@ -46,19 +44,15 @@ func init() {
 	flag.IntVar(&connectTimeout, "connecttimeout", service.DefaultConnectTimeout, "Connect Timeout (sec)")
 	flag.IntVar(&ackTimeout, "acktimeout", service.DefaultAckTimeout, "Ack Timeout (sec)")
 	flag.IntVar(&timeoutRetries, "retries", service.DefaultTimeoutRetries, "Timeout Retries")
+	flag.IntVar(&gomaxproces, "gomaxproces", 2, "gomaxproces count")
 	flag.StringVar(&authenticator, "auth", service.DefaultAuthenticator, "Authenticator Type")
 	flag.StringVar(&sessionsProvider, "sessions", service.DefaultSessionsProvider, "Session Provider Type")
 	flag.StringVar(&topicsProvider, "topics", service.DefaultTopicsProvider, "Topics Provider Type")
 	flag.StringVar(&cpuprofile, "cpuprofile", "", "CPU Profile Filename")
-	flag.StringVar(&wsAddr, "wsaddr", "", "HTTP websocket address, eg. ':8080'")
-	flag.StringVar(&wssAddr, "wssaddr", "", "HTTPS websocket address, eg. ':8081'")
-	flag.StringVar(&wssCertPath, "wsscertpath", "", "HTTPS server public key file")
-	flag.StringVar(&wssKeyPath, "wsskeypath", "", "HTTPS server private key file")
 	flag.Parse()
 }
 
 func main() {
-	fmt.Println("still on!")
 	svr := &service.Server{
 		KeepAlive:        keepAlive,
 		ConnectTimeout:   connectTimeout,
@@ -67,6 +61,8 @@ func main() {
 		SessionsProvider: sessionsProvider,
 		TopicsProvider:   topicsProvider,
 	}
+
+	runtime.GOMAXPROCS(gomaxproces)
 
 	var f *os.File
 	var err error
@@ -98,21 +94,9 @@ func main() {
 
 	mqttaddr := "tcp://:1883"
 
-	if len(wsAddr) > 0 || len(wssAddr) > 0 {
-		addr := "tcp://127.0.0.1:1883"
-		AddWebsocketHandler("/mqtt", addr)
-		/* start a plain websocket listener */
-		if len(wsAddr) > 0 {
-			go ListenAndServeWebsocket(wsAddr)
-		}
-		/* start a secure websocket listener */
-		if len(wssAddr) > 0 && len(wssCertPath) > 0 && len(wssKeyPath) > 0 {
-			go ListenAndServeWebsocketSecure(wssAddr, wssCertPath, wssKeyPath)
-		}
-	}
-
 	/* create plain MQTT listener */
 	err = svr.ListenAndServe(mqttaddr)
+	fmt.Println("server is on")
 	if err != nil {
 		glog.Errorf("surgemq/main: %v", err)
 	}

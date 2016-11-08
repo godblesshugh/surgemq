@@ -27,18 +27,18 @@ import (
 )
 
 var (
-	messages    int    = 100000
-	publishers  int    = 1
-	subscribers int    = 1
-	size        int    = 1024
+	messages int = 100000
+	publishers int = 1
+	subscribers int = 1
+	size int = 1024
 	topic       []byte = []byte("test")
-	qos         byte   = 0
-	nap         int    = 10
-	host        string = "127.0.0.1"
-	port        int    = 1883
-	user        string = "surgemq"
-	pass        string = "surgemq"
-	version     int    = 4
+	qos byte = 0
+	nap int = 10
+	host string = "127.0.0.1"
+	port int = 1883
+	user string = "surgemq"
+	pass string = "surgemq"
+	version int = 4
 
 	subdone, rcvdone, sentdone int64
 

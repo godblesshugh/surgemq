@@ -20,10 +20,11 @@ import (
 	"sync"
 	"sync/atomic"
 
-	"github.com/godblesshugh/message"
-	"github.com/surgebase/glog"
 	"surgemq/sessions"
 	"surgemq/topics"
+
+	"github.com/godblesshugh/message"
+	"github.com/surge/glog"
 )
 
 type (
@@ -48,15 +49,15 @@ var (
 type service struct {
 	// The ID of this service, it's not related to the Client ID, just a number that's
 	// incremented for every new service.
-	id uint64
+	id             uint64
 
 	// Is this a client or server. It's set by either Connect (client) or
 	// HandleConnection (server).
-	client bool
+	client         bool
 
 	// The number of seconds to keep the connection live if there's no data.
 	// If not set then default to 5 mins.
-	keepAlive int
+	keepAlive      int
 
 	// The number of seconds to wait for the CONNACK message before disconnecting.
 	// If not set then default to 2 seconds.
@@ -64,44 +65,44 @@ type service struct {
 
 	// The number of seconds to wait for any ACK messages before failing.
 	// If not set then default to 20 seconds.
-	ackTimeout int
+	ackTimeout     int
 
 	// The number of times to retry sending a packet if ACK is not received.
 	// If no set then default to 3 retries.
 	timeoutRetries int
 
 	// Network connection for this service
-	conn io.Closer
+	conn           io.Closer
 
 	// Session manager for tracking all the clients
-	sessMgr *sessions.Manager
+	sessMgr        *sessions.Manager
 
 	// Topics manager for all the client subscriptions
-	topicsMgr *topics.Manager
+	topicsMgr      *topics.Manager
 
 	// sess is the session object for this MQTT session. It keeps track session variables
 	// such as ClientId, KeepAlive, Username, etc
-	sess *sessions.Session
+	sess           *sessions.Session
 
 	// Wait for the various goroutines to finish starting and stopping
-	wgStarted sync.WaitGroup
-	wgStopped sync.WaitGroup
+	wgStarted      sync.WaitGroup
+	wgStopped      sync.WaitGroup
 
 	// writeMessage mutex - serializes writes to the outgoing buffer.
-	wmu sync.Mutex
+	wmu            sync.Mutex
 
 	// Whether this is service is closed or not.
-	closed int64
+	closed         int64
 
 	// Quit signal for determining when this service should end. If channel is closed,
 	// then exit.
-	done chan struct{}
+	done           chan struct{}
 
 	// Incoming data buffer. Bytes are read from the connection and put in here.
-	in *buffer
+	in             *buffer
 
 	// Outgoing data buffer. Bytes written here are in turn written out to the connection.
-	out *buffer
+	out            *buffer
 
 	// onpub is the method that gets added to the topic subscribers list by the
 	// processSubscribe() method. When the server finishes the ack cycle for a
@@ -110,17 +111,17 @@ type service struct {
 	// For the server, when this method is called, it means there's a message that
 	// should be published to the client on the other end of this connection. So we
 	// will call publish() to send the message.
-	onpub OnPublishFunc
+	onpub          OnPublishFunc
 
-	inStat  stat
-	outStat stat
+	inStat         stat
+	outStat        stat
 
-	intmp  []byte
-	outtmp []byte
+	intmp          []byte
+	outtmp         []byte
 
-	subs  []interface{}
-	qoss  []byte
-	rmsgs []*message.PublishMessage
+	subs           []interface{}
+	qoss           []byte
+	rmsgs          []*message.PublishMessage
 }
 
 func (this *service) start() error {
@@ -262,10 +263,6 @@ func (this *service) publish(msg *message.PublishMessage, onComplete OnCompleteF
 		return fmt.Errorf("(%s) Error sending %s message: %v", this.cid(), msg.Name(), err)
 	}
 
-	glog.Info("Receive a message")
-
-	glog.Infof("(service) receive a message through Publish, with content: %q", msg.String())
-	
 	switch msg.QoS() {
 	case message.QosAtMostOnce:
 		if onComplete != nil {

@@ -24,7 +24,7 @@ import (
 
 	"github.com/godblesshugh/message"
 	"github.com/stretchr/testify/require"
-	"github.com/surgebase/glog"
+	"github.com/surge/glog"
 	"surgemq/topics"
 )
 
@@ -80,7 +80,7 @@ func TestServiceWillDelivery(t *testing.T) {
 	c2.Subscribe(sub,
 		func(msg, ack message.Message, err error) error {
 			subs := atomic.AddInt64(&subdone, 1)
-			if subs == int64(subscribers-1) {
+			if subs == int64(subscribers - 1) {
 				c1.Disconnect()
 			}
 
@@ -91,7 +91,7 @@ func TestServiceWillDelivery(t *testing.T) {
 			require.Equal(t, []byte("send me home"), msg.Payload())
 
 			will := atomic.AddInt64(&willdone, 1)
-			if will == int64(subscribers-1) {
+			if will == int64(subscribers - 1) {
 				close(ready3)
 			}
 
@@ -101,7 +101,7 @@ func TestServiceWillDelivery(t *testing.T) {
 	c3.Subscribe(sub,
 		func(msg, ack message.Message, err error) error {
 			subs := atomic.AddInt64(&subdone, 1)
-			if subs == int64(subscribers-1) {
+			if subs == int64(subscribers - 1) {
 				c1.Disconnect()
 			}
 
@@ -112,7 +112,7 @@ func TestServiceWillDelivery(t *testing.T) {
 			require.Equal(t, []byte("send me home"), msg.Payload())
 
 			will := atomic.AddInt64(&willdone, 1)
-			if will == int64(subscribers-1) {
+			if will == int64(subscribers - 1) {
 				close(ready3)
 			}
 

@@ -28,48 +28,48 @@ const (
 
 type Session struct {
 	// Ack queue for outgoing PUBLISH QoS 1 messages
-	Pub1ack *Ackqueue
+	Pub1ack  *Ackqueue
 
 	// Ack queue for incoming PUBLISH QoS 2 messages
-	Pub2in *Ackqueue
+	Pub2in   *Ackqueue
 
 	// Ack queue for outgoing PUBLISH QoS 2 messages
-	Pub2out *Ackqueue
+	Pub2out  *Ackqueue
 
 	// Ack queue for outgoing SUBSCRIBE messages
-	Suback *Ackqueue
+	Suback   *Ackqueue
 
 	// Ack queue for outgoing UNSUBSCRIBE messages
 	Unsuback *Ackqueue
 
 	// Ack queue for outgoing PINGREQ messages
-	Pingack *Ackqueue
+	Pingack  *Ackqueue
 
 	// cmsg is the CONNECT message
-	Cmsg *message.ConnectMessage
+	Cmsg     *message.ConnectMessage
 
 	// Will message to publish if connect is closed unexpectedly
-	Will *message.PublishMessage
+	Will     *message.PublishMessage
 
 	// Retained publish message
 	Retained *message.PublishMessage
 
 	// cbuf is the CONNECT message buffer, this is for storing all the will stuff
-	cbuf []byte
+	cbuf     []byte
 
 	// rbuf is the retained PUBLISH message buffer
-	rbuf []byte
+	rbuf     []byte
 
 	// topics stores all the topis for this session/client
-	topics map[string]byte
+	topics   map[string]byte
 
 	// Initialized?
-	initted bool
+	initted  bool
 
 	// Serialize access to this session
-	mu sync.Mutex
+	mu       sync.Mutex
 
-	id string
+	id       string
 }
 
 func (this *Session) Init(msg *message.ConnectMessage) error {

@@ -24,7 +24,7 @@ import (
 
 var (
 	ErrSessionsProviderNotFound = errors.New("Session: Session provider not found")
-	ErrKeyNotAvailable          = errors.New("Session: not item found for key.")
+	ErrKeyNotAvailable = errors.New("Session: not item found for key.")
 
 	providers = make(map[string]SessionsProvider)
 )

@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/surgebase/glog"
+	"github.com/surge/glog"
 	"golang.org/x/net/websocket"
 	"io"
 	"net"
