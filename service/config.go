@@ -27,17 +27,34 @@ func init() {
 		panic(err)
 		return
 	}
-	appConfigPath = filepath.Join(workPath, "config", "app.conf")
-	if !utils.FileExists(appConfigPath) {
-		appConfigPath = filepath.Join(AppPath, "config", "app.conf")
-		if !utils.FileExists(appConfigPath) {
-			AppConfig = config.NewFakeConfig()
-			fmt.Println("this is fake config")
-			return
-		}
+	configExist := false
+	_appConfigPath := ""
+	_appConfigPath = filepath.Join(workPath, "config", "app.conf")
+	if utils.FileExists(_appConfigPath) {
+		appConfigPath = _appConfigPath
+		configExist = true
 	}
-	// 暂时只支持 ini 格式的配置文件
-	AppConfig, err = config.NewConfig("ini", appConfigPath)
+	_appConfigPath = filepath.Join(workPath, "app.conf")
+	if utils.FileExists(_appConfigPath) {
+		appConfigPath = _appConfigPath
+		configExist = true
+	}
+	_appConfigPath = filepath.Join(AppPath, "config", "app.conf")
+	if utils.FileExists(_appConfigPath) {
+		appConfigPath = _appConfigPath
+		configExist = true
+	}
+	_appConfigPath = filepath.Join(AppPath, "app.conf")
+	if utils.FileExists(_appConfigPath) {
+		appConfigPath = _appConfigPath
+		configExist = true
+	}
+	if configExist {
+		// 暂时只支持 ini 格式的配置文件
+		AppConfig, err = config.NewConfig("ini", appConfigPath)
+	} else {
+		AppConfig = config.NewFakeConfig()
+	}
 	if err != nil {
 		panic(err)
 		return
