@@ -111,13 +111,13 @@ publishing the result to any clients subscribed to two topics:
 		Short: "client subscribes to the pingmq server and prints out the ping results",
 	}
 
-	serverURI string
+	serverURI   string
 	serverQuiet bool
-	serverIPs strlist
+	serverIPs   strlist
 
 	pingInterval int
 
-	clientURI string
+	clientURI    string
 	clientTopics strlist
 
 	s *service.Server
@@ -199,11 +199,11 @@ func pinger() {
 func server(cmd *cobra.Command, args []string) {
 	// Create a new server
 	s = &service.Server{
-		KeepAlive:        300, // seconds
-		ConnectTimeout:   2, // seconds
-		SessionsProvider: "mem", // keeps sessions in memory
+		KeepAlive:        300,           // seconds
+		ConnectTimeout:   2,             // seconds
+		SessionsProvider: "mem",         // keeps sessions in memory
 		Authenticator:    "mockSuccess", // always succeed
-		TopicsProvider:   "mem", // keeps topic subscriptions in memory
+		TopicsProvider:   "mem",         // keeps topic subscriptions in memory
 	}
 
 	log.Printf("Starting server...")

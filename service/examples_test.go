@@ -19,11 +19,11 @@ import "github.com/godblesshugh/message"
 func ExampleServer() {
 	// Create a new server
 	svr := &Server{
-		KeepAlive:        300, // seconds
-		ConnectTimeout:   2, // seconds
-		SessionsProvider: "mem", // keeps sessions in memory
+		KeepAlive:        300,           // seconds
+		ConnectTimeout:   2,             // seconds
+		SessionsProvider: "mem",         // keeps sessions in memory
 		Authenticator:    "mockSuccess", // always succeed
-		TopicsProvider:   "mem", // keeps topic subscriptions in memory
+		TopicsProvider:   "mem",         // keeps topic subscriptions in memory
 	}
 
 	// Listen and serve connections at localhost:1883

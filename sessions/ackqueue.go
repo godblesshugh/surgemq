@@ -24,28 +24,28 @@ import (
 )
 
 var (
-	errQueueFull error = errors.New("queue full")
-	errQueueEmpty error = errors.New("queue empty")
+	errQueueFull   error = errors.New("queue full")
+	errQueueEmpty  error = errors.New("queue empty")
 	errWaitMessage error = errors.New("Invalid message to wait for ack")
-	errAckMessage error = errors.New("Invalid message for acking")
+	errAckMessage  error = errors.New("Invalid message for acking")
 )
 
 type ackmsg struct {
 	// Message type of the message waiting for ack
-	Mtype      message.MessageType
+	Mtype message.MessageType
 
 	// Current state of the ack-waiting message
-	State      message.MessageType
+	State message.MessageType
 
 	// Packet ID of the message. Every message that require ack'ing must have a valid
 	// packet ID. Messages that have message I
-	Pktid      uint16
+	Pktid uint16
 
 	// Slice containing the message bytes
-	Msgbuf     []byte
+	Msgbuf []byte
 
 	// Slice containing the ack message bytes
-	Ackbuf     []byte
+	Ackbuf []byte
 
 	// When ack cycle completes, call this function
 	OnComplete interface{}
@@ -68,19 +68,19 @@ type ackmsg struct {
 //   10. Server sends PUBREL message to client, waits for PUBCOMP.
 //   11. Client sends PINGREQ message to server, waits for PINGRESP.
 type Ackqueue struct {
-	size    int64
-	mask    int64
-	count   int64
-	head    int64
-	tail    int64
+	size  int64
+	mask  int64
+	count int64
+	head  int64
+	tail  int64
 
-	ping    ackmsg
-	ring    []ackmsg
-	emap    map[uint16]int64
+	ping ackmsg
+	ring []ackmsg
+	emap map[uint16]int64
 
 	ackdone []ackmsg
 
-	mu      sync.Mutex
+	mu sync.Mutex
 }
 
 func newAckqueue(n int) *Ackqueue {
@@ -186,7 +186,7 @@ func (this *Ackqueue) Acked() []ackmsg {
 		this.ping = ackmsg{}
 	}
 
-	FORNOTEMPTY:
+FORNOTEMPTY:
 	for !this.empty() {
 		switch this.ring[this.head].State {
 		case message.PUBACK, message.PUBREL, message.PUBCOMP, message.SUBACK, message.UNSUBACK:
@@ -263,7 +263,7 @@ func (this *Ackqueue) removeHead() error {
 }
 
 func (this *Ackqueue) grow() {
-	if math.MaxInt64 / 2 < this.size {
+	if math.MaxInt64/2 < this.size {
 		panic("new size will overflow int64")
 	}
 
@@ -275,7 +275,7 @@ func (this *Ackqueue) grow() {
 		copy(newring, this.ring[this.head:this.tail])
 	} else {
 		copy(newring, this.ring[this.head:])
-		copy(newring[this.size - this.head:], this.ring[:this.tail])
+		copy(newring[this.size-this.head:], this.ring[:this.tail])
 	}
 
 	this.size = newsize
@@ -316,7 +316,7 @@ func (this *Ackqueue) increment(n int64) int64 {
 }
 
 func powerOfTwo64(n int64) bool {
-	return n != 0 && (n & (n - 1)) == 0
+	return n != 0 && (n&(n-1)) == 0
 }
 
 func roundUpPowerOfTwo64(n int64) int64 {

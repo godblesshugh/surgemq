@@ -158,7 +158,7 @@ func (this *service) peekMessageSize() (message.MessageType, int, error) {
 
 		// If we got enough bytes, then check the last byte to see if the continuation
 		// bit is set. If so, increment cnt and continue peeking
-		if b[cnt - 1] >= 0x80 {
+		if b[cnt-1] >= 0x80 {
 			cnt++
 		} else {
 			break
@@ -181,9 +181,9 @@ func (this *service) peekMessageSize() (message.MessageType, int, error) {
 func (this *service) peekMessage(mtype message.MessageType, total int) (message.Message, int, error) {
 	var (
 		b    []byte
-		err error
+		err  error
 		i, n int
-		msg message.Message
+		msg  message.Message
 	)
 
 	if this.in == nil {
@@ -219,7 +219,7 @@ func (this *service) readMessage(mtype message.MessageType, total int) (message.
 	var (
 		b   []byte
 		err error
-		n int
+		n   int
 		msg message.Message
 	)
 
@@ -257,9 +257,9 @@ func (this *service) readMessage(mtype message.MessageType, total int) (message.
 // writeMessage() writes a message to the outgoing buffer
 func (this *service) writeMessage(msg message.Message) (int, error) {
 	var (
-		l int = msg.Len()
+		l    int = msg.Len()
 		m, n int
-		err error
+		err  error
 		buf  []byte
 		wrap bool
 	)

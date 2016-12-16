@@ -42,7 +42,7 @@ func TestMesh(t *testing.T) {
 
 	done = make(chan struct{})
 
-	for i := 1; i < publishers + 1; i++ {
+	for i := 1; i < publishers+1; i++ {
 		time.Sleep(time.Millisecond * 20)
 		wg.Add(1)
 		go startMeshClient(t, i, &wg)
@@ -50,8 +50,8 @@ func TestMesh(t *testing.T) {
 
 	wg.Wait()
 
-	glog.Infof("Total Sent %d messages in %d ns, %d ns/msg, %d msgs/sec", totalSent, sentSince, int(float64(sentSince) / float64(totalSent)), int(float64(totalSent) / (float64(sentSince) / float64(time.Second))))
-	glog.Infof("Total Received %d messages in %d ns, %d ns/msg, %d msgs/sec", totalRcvd, rcvdSince, int(float64(rcvdSince) / float64(totalRcvd)), int(float64(totalRcvd) / (float64(rcvdSince) / float64(time.Second))))
+	glog.Infof("Total Sent %d messages in %d ns, %d ns/msg, %d msgs/sec", totalSent, sentSince, int(float64(sentSince)/float64(totalSent)), int(float64(totalSent)/(float64(sentSince)/float64(time.Second))))
+	glog.Infof("Total Received %d messages in %d ns, %d ns/msg, %d msgs/sec", totalRcvd, rcvdSince, int(float64(rcvdSince)/float64(totalRcvd)), int(float64(totalRcvd)/(float64(rcvdSince)/float64(time.Second))))
 }
 
 func startMeshClient(t testing.TB, cid int, wg *sync.WaitGroup) {
@@ -108,7 +108,7 @@ func startMeshClient(t testing.TB, cid int, wg *sync.WaitGroup) {
 			now := time.Now()
 
 			for i := 0; i < cnt; i++ {
-				binary.BigEndian.PutUint32(payload, uint32(cid * cnt + i))
+				binary.BigEndian.PutUint32(payload, uint32(cid*cnt+i))
 				msg.SetPayload(payload)
 
 				err := svc.Publish(msg, nil)
@@ -128,12 +128,12 @@ func startMeshClient(t testing.TB, cid int, wg *sync.WaitGroup) {
 			}
 			statMu.Unlock()
 
-			glog.Infof("(surgemq%d) Sent %d messages in %d ns, %d ns/msg, %d msgs/sec", cid, sent, since, int(float64(since) / float64(cnt)), int(float64(sent) / (float64(since) / float64(time.Second))))
+			glog.Infof("(surgemq%d) Sent %d messages in %d ns, %d ns/msg, %d msgs/sec", cid, sent, since, int(float64(since)/float64(cnt)), int(float64(sent)/(float64(since)/float64(time.Second))))
 		}()
 
 		select {
 		case <-done2:
-		case <-time.Tick(time.Second * time.Duration(nap * publishers)):
+		case <-time.Tick(time.Second * time.Duration(nap*publishers)):
 			glog.Errorf("Timed out waiting for messages to be received.")
 		}
 
@@ -145,6 +145,6 @@ func startMeshClient(t testing.TB, cid int, wg *sync.WaitGroup) {
 		}
 		statMu.Unlock()
 
-		glog.Infof("(surgemq%d) Received %d messages in %d ns, %d ns/msg, %d msgs/sec", cid, received, since, int(float64(since) / float64(cnt)), int(float64(received) / (float64(since) / float64(time.Second))))
+		glog.Infof("(surgemq%d) Received %d messages in %d ns, %d ns/msg, %d msgs/sec", cid, received, since, int(float64(since)/float64(cnt)), int(float64(received)/(float64(since)/float64(time.Second))))
 	})
 }

@@ -20,7 +20,7 @@ import (
 )
 
 var (
-	ErrAuthFailure = errors.New("auth: Authentication failure")
+	ErrAuthFailure          = errors.New("auth: Authentication failure")
 	ErrAuthProviderNotFound = errors.New("auth: Authentication provider not found")
 
 	providers = make(map[string]Authenticator)

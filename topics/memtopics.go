@@ -31,12 +31,12 @@ var _ TopicsProvider = (*memTopics)(nil)
 
 type memTopics struct {
 	// Sub/unsub mutex
-	smu   sync.RWMutex
+	smu sync.RWMutex
 	// Subscription tree
 	sroot *snode
 
 	// Retained message mutex
-	rmu   sync.RWMutex
+	rmu sync.RWMutex
 	// Retained messages topic tree
 	rroot *rnode
 }
@@ -133,8 +133,8 @@ func (this *memTopics) Close() error {
 // subscrition nodes
 type snode struct {
 	// If this is the end of the topic string, then add subscribers here
-	subs   []interface{}
-	qos    []byte
+	subs []interface{}
+	qos  []byte
 
 	// Otherwise add the next topic level here
 	snodes map[string]*snode
@@ -205,8 +205,8 @@ func (this *snode) sremove(topic []byte, sub interface{}) error {
 		// we just overwrite the slot by shifting all other items up by one.
 		for i := range this.subs {
 			if equal(this.subs[i], sub) {
-				this.subs = append(this.subs[:i], this.subs[i + 1:]...)
-				this.qos = append(this.qos[:i], this.qos[i + 1:]...)
+				this.subs = append(this.subs[:i], this.subs[i+1:]...)
+				this.qos = append(this.qos[:i], this.qos[i+1:]...)
 				return nil
 			}
 		}
@@ -282,8 +282,8 @@ func (this *snode) smatch(topic []byte, qos byte, subs *[]interface{}, qoss *[]b
 // retained message nodes
 type rnode struct {
 	// If this is the end of the topic string, then add retained messages here
-	msg    *message.PublishMessage
-	buf    []byte
+	msg *message.PublishMessage
+	buf []byte
 
 	// Otherwise add the next topic level here
 	rnodes map[string]*rnode
@@ -457,10 +457,10 @@ func nextTopicLevel(topic []byte) ([]byte, []byte, error) {
 			}
 
 			if i == 0 {
-				return []byte(SWC), topic[i + 1:], nil
+				return []byte(SWC), topic[i+1:], nil
 			}
 
-			return topic[:i], topic[i + 1:], nil
+			return topic[:i], topic[i+1:], nil
 
 		case '#':
 			if i != 0 {

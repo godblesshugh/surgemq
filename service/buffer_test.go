@@ -199,7 +199,7 @@ func testReadBytes(t *testing.T, buf *buffer) {
 	n, err = buf.Read(p2)
 
 	require.NoError(t, err)
-	require.Equal(t, 2048 - 256, n)
+	require.Equal(t, 2048-256, n)
 }
 
 func benchmarkRead(b *testing.B, buf *buffer) {
