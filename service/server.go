@@ -47,6 +47,13 @@ const (
 	DefaultSessionsProvider = "mem"
 	DefaultAuthenticator    = "mockSuccess"
 	DefaultTopicsProvider   = "mem"
+
+	// DEV is for develop
+	DEV = "dev"
+	// PROD is for production
+	PROD = "prod"
+	// VERSION represent surgemq version.
+	VERSION = "1.0.1"
 )
 
 // Server is a library implementation of the MQTT server that, as best it can, complies

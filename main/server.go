@@ -22,21 +22,21 @@ import (
 	"runtime/pprof"
 	"surgemq/service"
 
-	"github.com/surge/glog"
 	"fmt"
+	"github.com/surge/glog"
 	"runtime"
 )
 
 var (
-	keepAlive int = 300
-	connectTimeout int = 2
-	ackTimeout int = 20
-	timeoutRetries int = 3
-	gomaxproces int = 2
-	authenticator string = "mockSuccess"
+	keepAlive        int    = 300
+	connectTimeout   int    = 2
+	ackTimeout       int    = 20
+	timeoutRetries   int    = 3
+	gomaxproces      int    = 2
+	authenticator    string = "mockSuccess"
 	sessionsProvider string = "mem"
-	topicsProvider string = "mem"
-	cpuprofile string
+	topicsProvider   string = "mem"
+	cpuprofile       string
 )
 
 func init() {
